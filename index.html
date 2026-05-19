@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Irene Mbeleka — Data Analyst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #0f2340;
+      --navy-mid:   #1b3a5c;
+      --navy-light: #2a5080;
+      --slate:      #4a6080;
+      --silver:     #8fa3b8;
+      --mist:       #d4dde8;
+      --fog:        #edf1f5;
+      --white:      #f8fafc;
+      --accent:     #c8a96e;
+      --text:       #1a2e42;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(15,35,64,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,169,110,0.2);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 600;
+      color: var(--white); letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--mist); text-decoration: none;
+      font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 80% 50%, rgba(27,58,92,0.6) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(200,169,110,0.08) 0%, transparent 60%);
+    }
+    .hero-grid-overlay {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-text { position: relative; z-index: 2; }
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--accent);
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--white); margin-bottom: 1.5rem;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    .hero-desc {
+      font-size: 1rem; line-height: 1.75;
+      color: var(--silver); max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .btn-primary {
+      padding: 0.75rem 2rem;
+      background: var(--accent); color: var(--navy);
+      text-decoration: none; font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #d9bb80; transform: translateY(-2px); }
+    .btn-outline {
+      padding: 0.75rem 2rem;
+      border: 1px solid var(--silver); color: var(--silver);
+      text-decoration: none; font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--white); color: var(--white); transform: translateY(-2px); }
+
+    .hero-stats {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 1.5rem;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(200,169,110,0.2);
+      padding: 1.5rem 2rem; width: 220px;
+      text-align: right;
+      opacity: 0; transform: translateX(30px);
+      animation: slideIn 0.6s forwards;
+    }
+    .stat-card:nth-child(1) { animation-delay: 0.3s; }
+    .stat-card:nth-child(2) { animation-delay: 0.5s; }
+    .stat-card:nth-child(3) { animation-delay: 0.7s; }
+    @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; font-weight: 600;
+      color: var(--accent); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--silver); margin-top: 0.3rem;
+    }
+
+    /* fade-in on load */
+    .hero-text > * {
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.7s forwards;
+    }
+    .hero-text > *:nth-child(1) { animation-delay: 0.1s; }
+    .hero-text > *:nth-child(2) { animation-delay: 0.2s; }
+    .hero-text > *:nth-child(3) { animation-delay: 0.35s; }
+    .hero-text > *:nth-child(4) { animation-delay: 0.5s; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.6rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 24px; height: 1px; background: var(--accent);
+    }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400; color: var(--navy);
+      margin-bottom: 3rem; line-height: 1.15;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--fog); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+    }
+    .about-body {
+      font-size: 1rem; line-height: 1.85; color: #3a4f63;
+    }
+    .about-body p + p { margin-top: 1rem; }
+    .skills-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .skill-chip {
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--mist);
+      background: var(--white);
+      font-size: 0.78rem; color: var(--navy-mid);
+      letter-spacing: 0.04em;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .skill-chip:hover { border-color: var(--navy-mid); background: var(--fog); }
+    .skills-title {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--slate); margin-bottom: 1rem; grid-column: 1/-1;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--white); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+    }
+    .project-card {
+      border: 1px solid var(--mist);
+      padding: 2rem 2rem 1.8rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      transition: height 0.3s;
+    }
+    .project-card:hover { border-color: var(--navy-light); transform: translateY(-4px); }
+    .project-card:hover::before { height: 100%; }
+    .project-tag {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.8rem;
+    }
+    .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 600;
+      color: var(--navy); margin-bottom: 0.8rem; line-height: 1.2;
+    }
+    .project-desc {
+      font-size: 0.85rem; line-height: 1.7; color: var(--slate);
+      margin-bottom: 1.2rem;
+    }
+    .project-tools {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .tool-tag {
+      font-size: 0.68rem; padding: 0.2rem 0.6rem;
+      background: var(--fog); color: var(--navy-mid);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--navy); }
+    #experience h2 { color: var(--white); }
+    #experience .section-label { color: var(--accent); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0;
+      width: 1px; background: rgba(200,169,110,0.3);
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 3rem; padding-left: 2rem;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2rem;
+      top: 0.4rem; width: 9px; height: 9px;
+      border: 1px solid var(--accent);
+      background: var(--navy);
+      transform: rotate(45deg);
+    }
+    .timeline-date {
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.4rem;
+    }
+    .timeline-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600;
+      color: var(--white); margin-bottom: 0.2rem;
+    }
+    .timeline-org {
+      font-size: 0.82rem; color: var(--silver); margin-bottom: 0.8rem;
+    }
+    .timeline-bullets { list-style: none; }
+    .timeline-bullets li {
+      font-size: 0.85rem; color: var(--mist); line-height: 1.65;
+      padding-left: 1rem; position: relative; margin-bottom: 0.3rem;
+    }
+    .timeline-bullets li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--accent); font-size: 0.7rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--fog);
+      text-align: center;
+    }
+    .contact-inner { max-width: 600px; margin: 0 auto; }
+    .contact-body {
+      font-size: 1rem; color: var(--slate); line-height: 1.7; margin-bottom: 2.5rem;
+    }
+    .contact-links {
+      display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.82rem; letter-spacing: 0.08em;
+      color: var(--navy-mid); text-decoration: none;
+      padding: 0.7rem 1.4rem;
+      border: 1px solid var(--mist); background: var(--white);
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .contact-link:hover { border-color: var(--navy-mid); color: var(--navy); transform: translateY(-2px); }
+    .contact-link svg { width: 16px; height: 16px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      padding: 1.5rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; color: var(--silver);
+    }
+    .footer-note { font-size: 0.72rem; color: var(--slate); letter-spacing: 0.05em; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      #hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+      .hero-stats { flex-direction: row; align-items: flex-start; flex-wrap: wrap; }
+      .stat-card { width: auto; flex: 1; min-width: 130px; text-align: left; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Irene <span>Mbeleka</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-text">
+    <div class="hero-eyebrow">Data Analyst · Revenue & Business Intelligence</div>
+    <h1>Turning data<br>into <em>decisions</em></h1>
+    <p class="hero-desc">
+      Computer Engineering graduate with hands-on experience in sales analytics, Power BI dashboards, and Python-based data pipelines. Based in East Africa — available remotely across the EMEA region.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-number">9K+</div>
+      <div class="stat-label">Records Analysed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">4</div>
+      <div class="stat-label">End-to-End Projects</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">3</div>
+      <div class="stat-label">BI & Analytics Tools</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <h2>Analytical by training,<br>curious by nature</h2>
+  <div class="about-grid">
+    <div class="about-body">
+      <p>
+        I'm a Computer Engineering graduate from the University of Dar es Salaam, with a deep interest in using data to drive better business decisions. My academic foundation — covering AI, database systems, statistics, and linear algebra — gave me the rigour. My project work gave me the practice.
+      </p>
+      <p>
+        From predicting COVID-19 outcomes with Python to building sales dashboards in Power BI, I've worked across the full analytical pipeline: collecting and cleaning messy data, exploring it for patterns, and presenting findings that non-technical stakeholders can act on.
+      </p>
+      <p>
+        I'm currently completing an exchange semester at KTH Royal Institute of Technology in Stockholm, taking courses in Machine Learning and Human-Centred Innovation. I thrive in cross-functional, multicultural environments — and I'm comfortable working independently in remote, distributed teams.
+      </p>
+    </div>
+    <div>
+      <div class="skills-grid">
+        <div class="skills-title">Core Skills & Tools</div>
+        <div class="skill-chip">Power BI</div>
+        <div class="skill-chip">Microsoft Excel</div>
+        <div class="skill-chip">Python (pandas, NumPy)</div>
+        <div class="skill-chip">scikit-learn</div>
+        <div class="skill-chip">SQL</div>
+        <div class="skill-chip">Matplotlib</div>
+        <div class="skill-chip">Exploratory Data Analysis</div>
+        <div class="skill-chip">Statistical Analysis</div>
+        <div class="skill-chip">KPI Dashboards</div>
+        <div class="skill-chip">Data Cleaning</div>
+        <div class="skill-chip">Sales Analytics</div>
+        <div class="skill-chip">Business Intelligence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <h2>Selected work</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-tag">Sales Analytics · Power BI · Python</div>
+      <div class="project-title">Sales Performance Analysis</div>
+      <p class="project-desc">
+        Analysed a 9,000+ record superstore dataset to uncover revenue trends, regional performance gaps, and top/bottom product categories. Built an interactive Power BI dashboard for stakeholder reporting, with Python (pandas) handling all cleaning and EDA.
+      </p>
+      <div class="project-tools">
+        <span class="tool-tag">Python</span>
+        <span class="tool-tag">pandas</span>
+        <span class="tool-tag">Power BI</span>
+        <span class="tool-tag">EDA</span>
+        <span class="tool-tag">KPI Dashboard</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-tag">Subscription Analytics · Power BI</div>
+      <div class="project-title">Customer Churn & Retention Analysis</div>
+      <p class="project-desc">
+        End-to-end analysis of a telecom subscription dataset to model churn patterns and identify retention levers. Delivered a self-contained Power BI report covering churn drivers, at-risk segments, and actionable retention metrics.
+      </p>
+      <div class="project-tools">
+        <span class="tool-tag">Power BI</span>
+        <span class="tool-tag">Churn Modelling</span>
+        <span class="tool-tag">Retention Metrics</span>
+        <span class="tool-tag">Subscription Data</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-tag">Predictive Modelling · Python · scikit-learn</div>
+      <div class="project-title">COVID-19 Outcome Prediction (Africa)</div>
+      <p class="project-desc">
+        Built a linear regression model in Python to predict COVID-19 death and recovery rates from confirmed case data across African countries. Applied full EDA pipeline — data quality checks, feature analysis, and model evaluation — from raw dataset to results.
+      </p>
+      <div class="project-tools">
+        <span class="tool-tag">Python</span>
+        <span class="tool-tag">scikit-learn</span>
+        <span class="tool-tag">pandas</span>
+        <span class="tool-tag">Matplotlib</span>
+        <span class="tool-tag">Linear Regression</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-tag">Social Media Analytics · Excel</div>
+      <div class="project-title">LinkedIn Profile Performance Analysis</div>
+      <p class="project-desc">
+        Analysed DataGirls Tanzania's LinkedIn engagement data across 2024, using Excel for cleaning, visualisation, and dashboard creation. Identified growth opportunities and presented actionable recommendations to the organisation.
+      </p>
+      <div class="project-tools">
+        <span class="tool-tag">Excel</span>
+        <span class="tool-tag">Data Cleaning</span>
+        <span class="tool-tag">Dashboard</span>
+        <span class="tool-tag">Engagement Analytics</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Experience & Education</div>
+  <h2>Background</h2>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-date">Apr 2026 – May 2026</div>
+      <div class="timeline-role">Data Analytics Intern</div>
+      <div class="timeline-org">Future Interns · Remote</div>
+      <ul class="timeline-bullets">
+        <li>Sales performance and customer churn analysis across two independent projects</li>
+        <li>Python for data cleaning and EDA; Power BI for interactive stakeholder dashboards</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 2026 – Jun 2026</div>
+      <div class="timeline-role">Exchange Semester</div>
+      <div class="timeline-org">KTH Royal Institute of Technology · Stockholm, Sweden</div>
+      <ul class="timeline-bullets">
+        <li>Machine Learning, Human-Centred Innovation, Life Cycle Assessment of ICT Systems</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Nov 2024 – Dec 2024</div>
+      <div class="timeline-role">Data Analytics Trainee</div>
+      <div class="timeline-org">DataGirls Tanzania · Bootcamp</div>
+      <ul class="timeline-bullets">
+        <li>Data analysis fundamentals, Excel dashboards, and LinkedIn analytics capstone project</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Sep 2024 – Oct 2024</div>
+      <div class="timeline-role">Data Science Trainee</div>
+      <div class="timeline-org">Star Girls Africa · Bootcamp, Nigeria</div>
+      <ul class="timeline-bullets">
+        <li>EDA, statistical modelling, and Python-based predictive modelling capstone</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Nov 2021 – Nov 2025</div>
+      <div class="timeline-role">B.Sc. Computer Engineering</div>
+      <div class="timeline-org">University of Dar es Salaam · Tanzania</div>
+      <ul class="timeline-bullets">
+        <li>AI, Database Systems, Statistics, Linear Algebra</li>
+        <li>Multiple group projects in multinational, multidisciplinary teams</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="justify-content:center;">Contact</div>
+    <h2 style="margin-bottom:1rem;">Let's connect</h2>
+    <p class="contact-body">
+      Open to remote opportunities across the EMEA region. Feel free to reach out via email or connect on LinkedIn or GitHub.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:irenedeodatus21@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        irenedeodatus21@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/irene-mbeleka/" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/idmirene" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Irene Mbeleka</div>
+  <div class="footer-note">Data Analyst · Available Remotely · EMEA</div>
+</footer>
+
+</body>
+</html>
